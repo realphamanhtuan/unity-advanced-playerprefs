@@ -34,18 +34,21 @@ namespace UnityAdvancedPlayerPrefs{
 
             // Debug.Log($"Get {GetValueKey(key)} -> {PlayerPrefs.GetString(GetValueKey(key))}");
             // Debug.Log($"Get {GetSaltKey(key)} -> {PlayerPrefs.GetString(GetSaltKey(key))}");
+            try{
+                string base64String = PlayerPrefs.GetString(GetValueKey(key));
+                byte[] compressedBytes = System.Convert.FromBase64String(base64String);
+                byte[] uncompressedBytes = ByteHelper.Decompress(compressedBytes);
+                string salt = PlayerPrefs.GetString(GetSaltKey(key));
 
-            string base64String = PlayerPrefs.GetString(GetValueKey(key));
-            byte[] compressedBytes = System.Convert.FromBase64String(base64String);
-            byte[] uncompressedBytes = ByteHelper.Decompress(compressedBytes);
-            string salt = PlayerPrefs.GetString(GetSaltKey(key));
-
-            byte[] rawBytes;
-            if (encrypted)
-                rawBytes = ByteHelper.AES_Decrypt(uncompressedBytes, ByteHelper.ASCIIStringToBytes(password), ByteHelper.ASCIIStringToBytes(salt));
-            else rawBytes = uncompressedBytes;
-            
-            return rawBytes;
+                byte[] rawBytes;
+                if (encrypted)
+                    rawBytes = ByteHelper.AES_Decrypt(uncompressedBytes, ByteHelper.ASCIIStringToBytes(password), ByteHelper.ASCIIStringToBytes(salt));
+                else rawBytes = uncompressedBytes;
+                
+                return rawBytes;
+            } catch {
+                return null;
+            }
         }
         void SetRawBytes(string key, byte[] rawBytes){
             string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
