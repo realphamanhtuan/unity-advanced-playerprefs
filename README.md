@@ -14,14 +14,14 @@ This repository is designed to have the format of Unity Package Manager (UPM). T
 
 ## Initialization
 
-Here is how you initialize an object of Advanced Player
+Here is how you initialize an object of AdvancedPlayerPrefs
 
 ```csharp
 // using directive
 using UnityAdvancedPlayerPrefs;
 
 // define an instance of AdvancedPlayerPrefs
-AdvancedPlayerPrefs gsm1 = new AdvancedPlayerPrefs(prefix, password);
+AdvancedPlayerPrefs prefs = new AdvancedPlayerPrefs(prefix, password);
 ```
 
 Here's what going to happen with that instance of AdvancedPlayerPrefs
@@ -50,4 +50,4 @@ Debug.Log(prefs.GetLong("year2038UnixTime", 0));
 
 ## Performance issue
 
-Complex features come with performance downgradation. Using encrypted AdvancedPlayerPrefs takes roughly 2.5 - 3.0 times the execution time to save and get the key. Therefore, if you intend to use AdvancedPlayerPrefs for large amount of data, you should run your own performance test and decide if it's appropriate. 
+Complex features come with performance downgradation. Using encrypted AdvancedPlayerPrefs takes roughly 2.5 - 3.0 times the execution time to save and get the key. Therefore, if you intend to use AdvancedPlayerPrefs for large amount of data, you should run your own performance test and decide if it's appropriate.
