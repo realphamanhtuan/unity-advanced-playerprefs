@@ -71,6 +71,18 @@ namespace UnityAdvancedPlayerPrefs.Test{
             TestConsistency(prefs1.SetLong, prefs2.GetLong, TestUtils.GenerateLongTestValues());
             TestConsistency(prefs1.SetString, prefs2.GetString, TestUtils.GenerateStringTestValues());
             
+            //test non existent keys
+            prefix = TestUtils.RandomString();
+            password = TestUtils.RandomString();
+            prefs1 = new AdvancedPlayerPrefs(prefix, password);
+            TestNonExistentKeys(prefs1.GetBool, TestUtils.GenerateBoolTestValues());
+            TestNonExistentKeys(prefs1.GetColor32, TestUtils.GenerateColor32TestValues());
+            TestNonExistentKeys(prefs1.GetDouble, TestUtils.GenerateDoubleTestValues());
+            TestNonExistentKeys(prefs1.GetFloat, TestUtils.GenerateFloatTestValues());
+            TestNonExistentKeys(prefs1.GetInt, TestUtils.GenerateIntTestValues());
+            TestNonExistentKeys(prefs1.GetLong, TestUtils.GenerateLongTestValues());
+            TestNonExistentKeys(prefs1.GetString, TestUtils.GenerateStringTestValues());
+
             Debug.Log($"Test completed: {success} / {total} tests succeeded");
 
             //test execution time - int
@@ -153,6 +165,14 @@ namespace UnityAdvancedPlayerPrefs.Test{
             foreach (T value in testValues){
                 sf.Invoke(key, value);
                 Assert($"Test prefix {key} - {value}", PlayerPrefs.HasKey($"{prefix}_{key}_value") && PlayerPrefs.HasKey($"{prefix}_{key}_salt") , true);
+            }
+        }
+        void TestNonExistentKeys<T>(GetFunction<T> gf, T[] defaultValues){
+            string[] testKeys = TestUtils.GenerateStringTestValues();
+            foreach (string key in testKeys)
+            foreach(T value in defaultValues){
+                T result = gf.Invoke(key, value);
+                Assert($"Test Nonexistent Key {key} - {value}", result.Equals(value), true);
             }
         }
     }

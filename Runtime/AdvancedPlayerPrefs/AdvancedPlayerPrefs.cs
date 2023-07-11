@@ -72,6 +72,7 @@ namespace UnityAdvancedPlayerPrefs{
 
         public bool GetBool(string key, bool defaultValue){
             byte[] rawBytes = GetRawBytes(key);
+            if (rawBytes == null) return defaultValue;
             BoolPrefItem item = new BoolPrefItem(defaultValue);
             item.ImportRawBytes(rawBytes);
             return item.value;
@@ -82,6 +83,7 @@ namespace UnityAdvancedPlayerPrefs{
         }
         public Color32 GetColor32(string key, Color32 defaultValue){
             byte[] rawBytes = GetRawBytes(key);
+            if (rawBytes == null) return defaultValue;
             Color32PrefItem item = new Color32PrefItem(defaultValue);
             item.ImportRawBytes(rawBytes);
             return item.value;
@@ -92,6 +94,7 @@ namespace UnityAdvancedPlayerPrefs{
         }
         public double GetDouble(string key, double defaultValue){
             byte[] rawBytes = GetRawBytes(key);
+            if (rawBytes == null) return defaultValue;
             DoublePrefItem item = new DoublePrefItem(defaultValue);
             item.ImportRawBytes(rawBytes);
             return item.value;
@@ -102,6 +105,7 @@ namespace UnityAdvancedPlayerPrefs{
         }
         public float GetFloat(string key, float defaultValue){
             byte[] rawBytes = GetRawBytes(key);
+            if (rawBytes == null) return defaultValue;
             FloatPrefItem item = new FloatPrefItem(defaultValue);
             item.ImportRawBytes(rawBytes);
             return item.value;
@@ -112,6 +116,7 @@ namespace UnityAdvancedPlayerPrefs{
         }
         public int GetInt(string key, int defaultValue){
             byte[] rawBytes = GetRawBytes(key);
+            if (rawBytes == null) return defaultValue;
             IntPrefItem item = new IntPrefItem(defaultValue);
             item.ImportRawBytes(rawBytes);
             return item.value;
@@ -122,6 +127,7 @@ namespace UnityAdvancedPlayerPrefs{
         }
         public long GetLong(string key, long defaultValue){
             byte[] rawBytes = GetRawBytes(key);
+            if (rawBytes == null) return defaultValue;
             LongPrefItem item = new LongPrefItem(defaultValue);
             item.ImportRawBytes(rawBytes);
             return item.value;
@@ -132,6 +138,7 @@ namespace UnityAdvancedPlayerPrefs{
         }
         public string GetString(string key, string defaultValue){
             byte[] rawBytes = GetRawBytes(key);
+            if (rawBytes == null) return defaultValue;
             StringPrefItem item = new StringPrefItem(defaultValue);
             item.ImportRawBytes(rawBytes);
             return item.value;
