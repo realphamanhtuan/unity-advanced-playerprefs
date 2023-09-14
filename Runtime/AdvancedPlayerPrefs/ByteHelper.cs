@@ -53,7 +53,7 @@ namespace UnityAdvancedPlayerPrefs{
         }
         internal static int BytesToIntLittleEndian(byte[] bytes){
             if (!BitConverter.IsLittleEndian) Array.Reverse(bytes);
-            return BitConverter.ToInt32(bytes);
+            return BitConverter.ToInt32(bytes, 0);
         }
         /// <summary>
         /// the result will be the byte representation of (x % (2**length)). In other words, only length least significant bytes are returned.
@@ -68,7 +68,7 @@ namespace UnityAdvancedPlayerPrefs{
         }
         internal static long BytesToLongLittleEndian(byte[] bytes){
             if (!BitConverter.IsLittleEndian) Array.Reverse(bytes);
-            return BitConverter.ToInt64(bytes);
+            return BitConverter.ToInt64(bytes, 0);
         }
         /// <summary>
         /// the result will be the byte representation of (x % (2**length)). In other words, only length least significant bytes are returned.
@@ -83,7 +83,7 @@ namespace UnityAdvancedPlayerPrefs{
         }
         internal static float BytesToFloatLittleEndian(byte[] bytes){
             if (!BitConverter.IsLittleEndian) Array.Reverse(bytes);
-            return BitConverter.ToSingle(bytes);
+            return BitConverter.ToSingle(bytes, 0);
         }
         /// <summary>
         /// the result will be the byte representation of (x % (2**length)). In other words, only length least significant bytes are returned.
@@ -98,7 +98,7 @@ namespace UnityAdvancedPlayerPrefs{
         }
         internal static double BytesToDoubleLittleEndian(byte[] bytes){
             if (!BitConverter.IsLittleEndian) Array.Reverse(bytes);
-            return BitConverter.ToDouble(bytes);
+            return BitConverter.ToDouble(bytes, 0);
         }
         internal static byte[] ASCIIStringToBytes(string s){
             return System.Text.Encoding.ASCII.GetBytes(s);
