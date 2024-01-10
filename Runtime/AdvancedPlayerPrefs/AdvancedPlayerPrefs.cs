@@ -8,17 +8,21 @@ namespace UnityAdvancedPlayerPrefs{
     public class AdvancedPlayerPrefs{
         readonly string keyPrefix, password;
         readonly bool encrypted = true;
+        readonly bool autosave = false;
         /// <summary>
-        /// Data stored in the playerPrefs will have the key format of the following {keyPrefix}_{realKey}_value and {keyPrefix}_{realKey}_salt.
-        /// Leave the password empty or null to indicate plain data saving in the PlayerPrefs.
+        /// Initialize Advanced PlayerPrefs.
         /// </summary>
-        /// <param name="keyPrefix"></param>
-        /// <param name="password"></param>
-        public AdvancedPlayerPrefs(string keyPrefix = "", string password = ""){
+        /// <param name="keyPrefix">Data stored in the playerPrefs will have the key format of the following {keyPrefix}_{realKey}_value and {keyPrefix}_{realKey}_salt.</param>
+        /// <param name="password">Leave the password empty or null to indicate plain data saving in the PlayerPrefs.</param>
+        /// <param name="autosave">If set, AdvancedPlayerPrefs automatically saves changes to permanent storage on every Set() call. Otherwise, saving will be triggered onApplicationQuit(), similar to original PlayerPrefs.</param>
+        public AdvancedPlayerPrefs(string keyPrefix = "", string password = "", bool autosave = false){
             if (string.IsNullOrWhiteSpace(keyPrefix)) keyPrefix = "";
             this.keyPrefix = keyPrefix;
+            
             if (string.IsNullOrWhiteSpace(password)) encrypted = false;
             this.password = password;
+
+            this.autosave = autosave;
             // Debug.Log($"Create GSM with prefix = {this.keyPrefix} and password = {this.password}");
         }
         private string GetValueKey(string key){
@@ -51,7 +55,7 @@ namespace UnityAdvancedPlayerPrefs{
             }
         }
         void SetRawBytes(string key, byte[] rawBytes){
-            string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+            const string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
             string salt = "";
 
             for(int i = 0; i < 32; i++)
@@ -71,8 +75,14 @@ namespace UnityAdvancedPlayerPrefs{
             PlayerPrefs.SetString(GetSaltKey(key), salt);
             // Debug.Log($"Set {GetValueKey(key)} {base64String}");
             // Debug.Log($"Set {GetSaltKey(key)} {salt}");
+
+            if (this.autosave) 
+                PlayerPrefs.Save();
         }
 
+        public void Save(){
+            PlayerPrefs.Save();
+        }
         public bool GetBool(string key, bool defaultValue){
             byte[] rawBytes = GetRawBytes(key);
             if (rawBytes == null) return defaultValue;
